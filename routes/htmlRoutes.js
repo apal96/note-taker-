@@ -5,7 +5,7 @@ html.get('/notes',(req,res)=>{
 res.sendFile(path.join(__dirname,'../public/notes.html'))
 })
 //return the index.html file
-html.get('*', (req, res) =>
+html.get('/index', (req, res) =>
 res.sendFile(path.join(__dirname, '../public/index.html')));
 
 module.exports = html;
