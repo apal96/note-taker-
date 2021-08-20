@@ -1,6 +1,6 @@
 const path = require ('path');
 const router = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+const { readFromFile, readAndAppend, writeToFile } = require('../helpers/fsUtils');
 const { v4: uuidv4 } = require('uuid');
 
 //read the db.json file and return saved notes as JSON
@@ -35,7 +35,18 @@ router.post('/notes',(req,res)=>{
 
 })
 
+//delete a note
 router.delete('/notes/:id',(req,res)=>{
+    const noteId = req.params.note_id;
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
 
+      const result = json.filter((note) => note.note_id !== noteId);
+
+      writeToFile('./db/db.json', result);
+
+      res.json(`Note has been deleted`);
+    });
 })
 module.exports = router;
